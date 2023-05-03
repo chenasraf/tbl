@@ -3,31 +3,47 @@ use std::env;
 fn main() {
     // get args
     let args: Vec<String> = env::args().collect();
-    let args = &args[1..];
-    if args.len() < 2 {
-        // try get from stdin
-        let mut input_str = String::new();
-        let mut collect_str = String::new();
-        while std::io::stdin().read_line(&mut input_str).unwrap() > 0 {
-            collect_str.push_str(&input_str);
-            input_str.clear();
-        }
-        if collect_str.len() == 0 {
-            println!("Usage: {} <separator>", args[0]);
-            return;
-        }
-        let separator = &args[0];
-        let out = format_as_table(&collect_str, separator);
-        println!("{}", out);
+    let mut args = &args[1..];
+
+    if args.len() > 0 && (args[0] == "-h" || args[0] == "--help") {
+        print_usage();
         return;
     }
-    let separator = &args[1];
-    let input_str = &args[0];
-    let out = format_as_table(&input_str, separator);
+
+    let mut input_str = String::new();
+    let mut collect_str = String::new();
+
+    // try to get from stdin
+    while std::io::stdin().read_line(&mut input_str).unwrap() > 0 {
+        collect_str.push_str(&input_str);
+        input_str.clear();
+    }
+
+    // if no streamed input, and no args, print usage
+    if collect_str.len() == 0 && args.len() < 1 {
+        print_usage();
+        return;
+    }
+
+    // if no streamed input, but args, use args
+    if collect_str.len() == 0 {
+        collect_str = args[0].clone();
+        args = &args[1..];
+    }
+
+    let separator = if args.len() > 0 { &args[0] } else { " " };
+    let out_separator = "  ";
+    let out = format_as_table(&collect_str, separator, out_separator);
     println!("{}", out);
+
+    return;
 }
 
-fn format_as_table(input_str: &str, separator: &str) -> String {
+fn print_usage() {
+    println!("Usage:\n\ttbl <string> [separator]\n\tcat <file> | tbl [separator]");
+}
+
+fn format_as_table(input_str: &str, separator: &str, out_separator: &str) -> String {
     let mut result = String::new();
     let mut max_col_len = Vec::new();
     let mut rows = Vec::new();
@@ -49,10 +65,12 @@ fn format_as_table(input_str: &str, separator: &str) -> String {
             result.push_str(col);
             if i < row.len() - 1 {
                 let spaces = max_col_len[i] - col.len();
-                for _ in 0..spaces {
-                    result.push(' ');
+                if spaces > 0 {
+                    for _ in 0..(spaces) {
+                        result.push_str(" ");
+                    }
                 }
-                result.push_str(separator);
+                result.push_str(out_separator);
             }
         }
         result.push('\n');
