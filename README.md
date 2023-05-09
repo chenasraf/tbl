@@ -22,6 +22,8 @@ Harry       Osborn     No
 
 Currently you can build this program from source.
 
+Requires `rust` compiler.
+
 For an easy installation:
 
 - Clone this repository: `git clone https://github.com/chenasraf/tblf --depth=1`
