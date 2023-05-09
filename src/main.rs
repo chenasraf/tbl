@@ -1,4 +1,4 @@
-use std::env;
+use std::{env,io};
 
 fn main() {
     // get args
@@ -14,7 +14,7 @@ fn main() {
     let mut collect_str = String::new();
 
     // try to get from stdin
-    while std::io::stdin().read_line(&mut input_str).unwrap() > 0 {
+    while io::stdin().read_line(&mut input_str).unwrap() > 0 {
         collect_str.push_str(&input_str);
         input_str.clear();
     }
@@ -40,7 +40,12 @@ fn main() {
 }
 
 fn print_usage() {
-    println!("Usage:\n\ttbl <string> [separator]\n\tcat <file> | tbl [separator]");
+    println!("tblf ----- Format input as a table");
+    println!("");
+    println!("Usage:");
+    println!("");
+    println!("  tbl <string> [separator]");
+    println!("  <piped_output> | tbl [separator]");
 }
 
 fn format_as_table(input_str: &str, separator: &str, out_separator: &str) -> String {

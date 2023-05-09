@@ -1,4 +1,4 @@
-# tbl
+# tblf
 
 A small binary that turns input like this:
 

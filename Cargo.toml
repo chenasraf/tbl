@@ -1,5 +1,5 @@
 [package]
-name = "tbl"
+name = "tblf"
 version = "0.1.0"
 edition = "2021"
 
@@ -10,6 +10,6 @@ strip = true  # Automatically strip symbols from the binary.
 opt-level = "z" # Optimize for size.
 lto = true # link time optimization
 codegen-units = 1 # reduce binary size
-panic = "abort" # abort on panic
+# panic = "abort" # abort on panic
 
 [dependencies]
