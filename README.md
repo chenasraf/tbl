@@ -18,6 +18,17 @@ Mary-Jane   Watson     No
 Harry       Osborn     No
 ```
 
+## Installation
+
+Currently you can build this program from source.
+
+For an easy installation:
+
+- Clone this repository: `git clone https://github.com/chenasraf/tblf --depth=1`
+- To build: `make build`
+- To install: `make install` - will put the binary in `/usr/local/bin`
+- To install at a custom location: `cp target/release/tblf /path/to/dir`
+
 ## How to use
 
 Either pass a string as the first argument, or pipe a string into it.
